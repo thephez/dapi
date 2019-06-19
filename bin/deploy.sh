@@ -31,7 +31,7 @@ ls -alh
 git checkout -B openapi-spec
 git pull
 cp doc/swagger.json ../openapi-spec.json
-rm -rf ../dapi/* dapi/.nyc_output
+rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 ls -alh
 
