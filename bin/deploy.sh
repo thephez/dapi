@@ -30,19 +30,21 @@ ls
 git checkout -B openapi-spec
 cp doc/swagger.json ../
 rm -rf ../dapi/*
-ls ../
+rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
+ls
 cp ../swagger.json openapi-spec.json
+
+# Generate redoc static html
+npx redoc-cli bundle doc/openapi-spec.json
+head redoc-static.html
+mv redoc-static.html index.html
+
 git add -A
 git status
 git commit -m "Travis-built spec for version ${VERSION}"
 git log --oneline -n 5
 
 git push https://${GH_TOKEN}@github.com/thephez/dapi.git
-
-
-npx redoc-cli bundle doc/swagger.json
-head redoc-static.html
-mv redoc-static.html index.html
 ls
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
