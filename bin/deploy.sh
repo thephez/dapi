@@ -26,6 +26,16 @@ ls
 npx redoc-cli bundle doc/swagger.json
 head redoc-static.html
 
+git checkout -B openapi-spec
+ls
+rm -rf bin/ doc/ docs/ lib/ scripts/ test/
+rm -f -- index.html
+mv redoc-static.html index.html
+ls
+git add -A
+git status
+git commit -m "Travis-built spec for version ${VERSION}"
+
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
 #  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
 #  exit 1
