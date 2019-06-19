@@ -5,9 +5,9 @@ language: node_js
 node_js:
   - '10'
 
-branches:
-  only:
-    - oas/testing
+#branches:
+#  only:
+#    - oas/testing
 
 services:
   - docker
@@ -29,5 +29,5 @@ deploy:
   skip_cleanup: true
   provider: script
   script: bash bin/deploy.sh
-  on:
-    repo: thephez/dapi
+  #on:
+  #  repo: thephez/dapi
