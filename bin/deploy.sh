@@ -4,7 +4,7 @@
 set -xe
 
 npm run oas:generate
-head doc/swagger.json && printf "\n[...]\n" tail doc/swagger.json
+head doc/swagger.json && printf "\n[...]\n" && tail doc/swagger.json
 
 # Update this whenever the latest Node.js LTS version changes (~ every year).
 # Do not forget to add this version to .travis.yml config also.
