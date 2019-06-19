@@ -51,6 +51,8 @@ git status
 git commit -m "Travis-built spec for version ${VERSION}"
 git log --oneline -n 5
 
+git remote -v
+
 git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 ls -alh
 
