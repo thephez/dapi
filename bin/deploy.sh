@@ -27,11 +27,14 @@ ls
 #git config --global user.email "travis@travis-ci.org"
 #git config --global user.name "Travis CI"
 
+# Check out spec branch and remove all files
 git checkout -B openapi-spec
 cp doc/swagger.json ../
 rm -rf ../dapi/*
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 ls
+
+# Put spec file back into folder
 cp ../swagger.json openapi-spec.json
 
 # Generate redoc static html
@@ -39,6 +42,7 @@ npx redoc-cli bundle openapi-spec.json
 head redoc-static.html
 mv redoc-static.html index.html
 
+# Add spec file and static page
 git add -A
 git status
 git commit -m "Travis-built spec for version ${VERSION}"
