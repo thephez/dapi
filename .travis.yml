@@ -3,12 +3,11 @@ dist: trusty
 language: node_js
 
 node_js:
-  - '8'
   - '10'
 
 branches:
   only:
-    - master
+    - oas/testing
     - /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 services:
@@ -25,11 +24,12 @@ install:
 before_script:
   - npm run check-package
   - npm run lint
+  - npm run oas:generate
 
 deploy:
   skip_cleanup: true
   provider: script
   script: bash bin/deploy.sh
   on:
-    repo: dashevo/dapi
+    repo: thephez/dapi
     tags: true
