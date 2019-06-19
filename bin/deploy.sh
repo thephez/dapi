@@ -29,8 +29,9 @@ ls -alh
 
 # Check out spec branch and remove all files
 git checkout -B openapi-spec
+git pull
 cp doc/swagger.json ../openapi-spec.json
-rm -rf ../dapi/*
+rm -rf ../dapi/* dapi/.nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 ls -alh
 
