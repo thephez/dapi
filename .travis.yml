@@ -23,11 +23,12 @@ install:
 before_script:
   - npm run check-package
   - npm run lint
-  - npm run oas:generate
+  #- npm run oas:generate
 
 deploy:
   skip_cleanup: true
   provider: script
   script: bash bin/deploy.sh
-  #on:
-  #  repo: thephez/dapi
+  on:
+    repo: thephez/dapi
+    branch: oas/testing

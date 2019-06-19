@@ -3,6 +3,7 @@
 # Show script in output, and error if anything fails
 set -xe
 
+npm run oas:generate
 cat doc/swagger.json
 
 # Update this whenever the latest Node.js LTS version changes (~ every year).
