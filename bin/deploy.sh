@@ -4,7 +4,7 @@
 set -xe
 
 npm run oas:generate
-cat doc/swagger.json
+head doc/swagger.json && printf "\n[...]\n" tail doc/swagger.json
 
 # Update this whenever the latest Node.js LTS version changes (~ every year).
 # Do not forget to add this version to .travis.yml config also.
@@ -22,13 +22,17 @@ fi
 VERSION="$(jq -r .version package.json)"
 PACKAGE_TAG=v"$VERSION"
 
-if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
-  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
-  exit 1
-fi
+ls
+npx redoc-cli bundle doc/swagger.json
+head redoc-static.html
 
-IMAGE_NAME="dashpay/dapi"
-
+#if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
+#  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
+#  exit 1
+#fi
+#
+#IMAGE_NAME="dashpay/dapi"
+#
 ## 1. build image:
 #docker build -t "${IMAGE_NAME}:latest" \
 #             -t "${IMAGE_NAME}:${VERSION}" \

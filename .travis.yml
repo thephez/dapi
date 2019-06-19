@@ -23,7 +23,6 @@ install:
 before_script:
   - npm run check-package
   - npm run lint
-  #- npm run oas:generate
 
 deploy:
   skip_cleanup: true
