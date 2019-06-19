@@ -39,7 +39,7 @@ cp ../openapi-spec.json .
 
 # Generate redoc static html
 cd ..
-npx redoc-cli bundle ../openapi-spec.json
+npx redoc-cli bundle openapi-spec.json
 head redoc-static.html
 mv redoc-static.html dapi/index.html
 cd dapi
