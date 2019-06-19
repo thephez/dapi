@@ -3,6 +3,8 @@
 # Show script in output, and error if anything fails
 set -xe
 
+cat doc/swagger.json
+
 # Update this whenever the latest Node.js LTS version changes (~ every year).
 # Do not forget to add this version to .travis.yml config also.
 LATEST_LTS_VERSION="10"
