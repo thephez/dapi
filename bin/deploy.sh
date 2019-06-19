@@ -35,7 +35,7 @@ ls
 cp ../swagger.json openapi-spec.json
 
 # Generate redoc static html
-npx redoc-cli bundle doc/openapi-spec.json
+npx redoc-cli bundle openapi-spec.json
 head redoc-static.html
 mv redoc-static.html index.html
 
