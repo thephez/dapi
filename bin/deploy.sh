@@ -22,7 +22,7 @@ fi
 VERSION="$(jq -r .version package.json)"
 PACKAGE_TAG=v"$VERSION"
 
-ls
+ls -alh
 
 #git config --global user.email "travis@travis-ci.org"
 #git config --global user.name "Travis CI"
@@ -32,7 +32,7 @@ git checkout -B openapi-spec
 cp doc/swagger.json ../openapi-spec.json
 rm -rf ../dapi/*
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
-ls
+ls -alh
 
 # Put spec file back into folder
 cp ../openapi-spec.json .
@@ -51,7 +51,7 @@ git commit -m "Travis-built spec for version ${VERSION}"
 git log --oneline -n 5
 
 git push https://${GH_TOKEN}@github.com/thephez/dapi.git
-ls
+ls -alh
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
 #  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
