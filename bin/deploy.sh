@@ -29,8 +29,15 @@ git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
-git checkout -f openapi-spec
-#git branch --set-upstream-to=origin/openapi-spec openapi-spec
+
+# Create or checkout branch
+if [ -n "$(git rev-parse --quiet --verify openapi-spec)" ]; then
+  git checkout --orphan openapi-spec
+  git rm -rf .
+  git branch --set-upstream-to=origin/openapi-spec openapi-spec
+else
+  git checkout -f openapi-spec
+fi
 
 # Put spec file back into folder and check for changes
 cp ../openapi-spec.json .
@@ -48,7 +55,7 @@ if [ -n "$(git diff openapi-spec.json)" ]; then
   git commit -m "Travis-built spec for version ${VERSION}"
 
   git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
-  git pull --rebase
+  #git pull --rebase
   git push -u origin-openapi openapi-spec
 
 else
