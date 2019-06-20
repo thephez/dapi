@@ -22,7 +22,7 @@ fi
 VERSION="$(jq -r .version package.json)"
 PACKAGE_TAG=v"$VERSION"
 
-ls -alh
+#ls -alh
 
 #git config --global user.email "travis@travis-ci.org"
 #git config --global user.name "Travis CI"
@@ -33,7 +33,7 @@ git pull
 cp doc/swagger.json ../openapi-spec.json
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
-ls -alh
+#ls -alh
 
 # Put spec file back into folder
 cp ../openapi-spec.json .
