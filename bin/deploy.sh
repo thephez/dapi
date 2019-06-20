@@ -3,7 +3,9 @@
 # Show script in output, and error if anything fails
 set -xe
 
+# Create OpenAPI spec file and copy above repo
 npm run oas:generate
+cp doc/swagger.json ../openapi-spec.json
 head doc/swagger.json && printf "\n[...]\n" && tail doc/swagger.json
 
 # Update this whenever the latest Node.js LTS version changes (~ every year).
@@ -22,18 +24,15 @@ fi
 VERSION="$(jq -r .version package.json)"
 PACKAGE_TAG=v"$VERSION"
 
-#ls -alh
-
-#git config --global user.email "travis@travis-ci.org"
-#git config --global user.name "Travis CI"
-
 # Check out spec branch and remove all files
+git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
+git fetch --unshallow
 git checkout -B openapi-spec
-git pull
-cp doc/swagger.json ../openapi-spec.json
+git branch --set-upstream-to=origin/openapi-spec openapi-spec
+git stash
+git pull -X theirs
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
-#ls -alh
 
 # Put spec file back into folder
 cp ../openapi-spec.json .
@@ -47,17 +46,13 @@ cd dapi
 
 ## Add spec file and static page
 git add -A
-#git status
 git commit -m "Travis-built spec for version ${VERSION}"
 #git log --oneline -n 5
-#
-git remote -v
-#
 
 git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
-git fetch --all
+git pull --rebase
 git push -u origin-openapi openapi-spec
-#git push --quiet --set-upstream origin-openapi gh-pages 
+#git push --quiet --set-upstream origin-openapi gh-pages
 
 #git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 ls -alh
@@ -67,16 +62,3 @@ ls -alh
 #  exit 1
 #fi
 #
-#IMAGE_NAME="dashpay/dapi"
-#
-## 1. build image:
-#docker build -t "${IMAGE_NAME}:latest" \
-#             -t "${IMAGE_NAME}:${VERSION}" \
-#             .
-#
-## Login to Docker Hub
-#echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#
-## Push images to the registry
-#docker push "${IMAGE_NAME}:latest"
-#docker push "${IMAGE_NAME}:${VERSION}"
