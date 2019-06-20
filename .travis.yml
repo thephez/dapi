@@ -33,4 +33,4 @@ deploy:
     branch: oas/testing
 
 after_success:
-  - .travis/bin/push.sh
+  - .travis/push.sh
