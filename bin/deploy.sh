@@ -55,7 +55,8 @@ git remote -v
 #
 
 git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
-git push --quiet --set-upstream origin-openapi gh-pages 
+git push -u origin-openapi openapi-spec
+#git push --quiet --set-upstream origin-openapi gh-pages 
 
 #git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 ls -alh
