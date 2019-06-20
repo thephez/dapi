@@ -42,13 +42,19 @@ head redoc-static.html
 mv redoc-static.html dapi/index.html
 cd dapi
 
-## Add spec file and static page
-git add -A
-git commit -m "Travis-built spec for version ${VERSION}"
+if [ -n "$(git status --porcelain)" ]; then
+  ## Add spec file and static page
+  git add -A
+  git commit -m "Travis-built spec for version ${VERSION}"
 
-git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
-git pull --rebase
-git push -u origin-openapi openapi-spec
+  git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
+  git pull --rebase
+  git push -u origin-openapi openapi-spec
+
+else
+  echo "no changes";
+  exit 0
+fi
 
 #git push --quiet --set-upstream origin-openapi gh-pages
 #git push https://${GH_TOKEN}@github.com/thephez/dapi.git
