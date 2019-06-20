@@ -32,10 +32,10 @@ rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 
 # Create or checkout branch
-if [ -n "$(git rev-parse --quiet --verify origin/openapi-spec)" ]; then
-  git checkout -f openapi-spec
+if [ -n "$(git rev-parse --quiet --verify origin/gh-pages)" ]; then
+  git checkout -f gh-pages
 else
-  git checkout --orphan openapi-spec
+  git checkout --orphan gh-pages
   git rm -rf .
 fi
 
@@ -50,7 +50,7 @@ if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.j
   git commit -m "Travis-built spec for version \"${VERSION}\""
 
   git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
-  git push -u origin-openapi openapi-spec
+  git push -u origin-openapi gh-pages
 else
   echo "No OpenAPI spec changes";
   exit 0
