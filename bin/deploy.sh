@@ -53,7 +53,11 @@ git commit -m "Travis-built spec for version ${VERSION}"
 #
 git remote -v
 #
-git push https://${GH_TOKEN}@github.com/thephez/dapi.git
+
+git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
+git push --quiet --set-upstream origin-openapi gh-pages 
+
+#git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 ls -alh
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
