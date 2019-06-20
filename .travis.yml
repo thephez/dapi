@@ -31,3 +31,6 @@ deploy:
   on:
     repo: thephez/dapi
     branch: oas/testing
+
+after_success:
+  - .travis/push.sh
