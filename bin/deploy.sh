@@ -27,11 +27,10 @@ PACKAGE_TAG=v"$VERSION"
 # Check out spec branch and remove all files
 git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
-git checkout -f openapi-spec
-git branch --set-upstream-to=origin/openapi-spec openapi-spec
-ls
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
+git checkout -f openapi-spec
+#git branch --set-upstream-to=origin/openapi-spec openapi-spec
 
 # Put spec file back into folder and check for changes
 cp ../openapi-spec.json .
