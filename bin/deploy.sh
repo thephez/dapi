@@ -29,10 +29,12 @@ git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
 git checkout -B openapi-spec
 git branch --set-upstream-to=origin/openapi-spec openapi-spec
-git stash
-git pull -X theirs
+
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
+
+git stash
+git pull -X theirs
 
 # Put spec file back into folder
 cp ../openapi-spec.json .
