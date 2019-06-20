@@ -24,9 +24,11 @@ fi
 VERSION="$(jq -r .version package.json)"
 PACKAGE_TAG=v"$VERSION"
 
-# Check out spec branch and remove all files
+# Get all repo branches
 git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
+
+# Delete unnecessary files
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 
@@ -42,14 +44,9 @@ fi
 cp ../openapi-spec.json .
 if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.json)" ]; then
   # Generate redoc static html
-  #cd ..
   npx redoc-cli bundle ../openapi-spec.json -o index.html
-  ls
-  #head redoc-static.html
-  #mv redoc-static.html dapi/index.html
-  #cd dapi
 
-  ## Add spec file and static page
+  # Add all files (spec and static html page)
   git add -A
   git commit -m "Travis-built spec for version \"${VERSION}\""
 
