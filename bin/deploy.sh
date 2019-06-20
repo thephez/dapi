@@ -32,11 +32,11 @@ rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 
 # Create or checkout branch
 if [ -n "$(git rev-parse --quiet --verify openapi-spec)" ]; then
+  git checkout -f openapi-spec
+else
   git checkout --orphan openapi-spec
   git rm -rf .
-  git branch --set-upstream-to=origin/openapi-spec openapi-spec
-else
-  git checkout -f openapi-spec
+  #git branch --set-upstream-to=origin/openapi-spec openapi-spec
 fi
 
 # Put spec file back into folder and check for changes
