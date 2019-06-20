@@ -29,20 +29,21 @@ git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
 git checkout -f openapi-spec
 git branch --set-upstream-to=origin/openapi-spec openapi-spec
+ls
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 
-# Put spec file back into folder
+# Put spec file back into folder and check for changes
 cp ../openapi-spec.json .
+if [ -n "$(git diff openapi-spec.json)" ]; then
 
-# Generate redoc static html
-cd ..
-npx redoc-cli bundle openapi-spec.json
-head redoc-static.html
-mv redoc-static.html dapi/index.html
-cd dapi
+  # Generate redoc static html
+  cd ..
+  npx redoc-cli bundle openapi-spec.json
+  head redoc-static.html
+  mv redoc-static.html dapi/index.html
+  cd dapi
 
-if [ -n "$(git status --porcelain)" ]; then
   ## Add spec file and static page
   git add -A
   git commit -m "Travis-built spec for version ${VERSION}"
@@ -52,7 +53,7 @@ if [ -n "$(git status --porcelain)" ]; then
   git push -u origin-openapi openapi-spec
 
 else
-  echo "no changes";
+  echo "No OpenAPI spec changes";
   exit 0
 fi
 
