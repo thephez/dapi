@@ -42,11 +42,12 @@ fi
 cp ../openapi-spec.json .
 if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.json)" ]; then
   # Generate redoc static html
-  cd ..
-  npx redoc-cli bundle openapi-spec.json
-  head redoc-static.html
-  mv redoc-static.html dapi/index.html
-  cd dapi
+  #cd ..
+  npx redoc-cli bundle ../openapi-spec.json -o index.html
+  ls
+  #head redoc-static.html
+  #mv redoc-static.html dapi/index.html
+  #cd dapi
 
   ## Add spec file and static page
   git add -A
