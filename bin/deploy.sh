@@ -61,8 +61,6 @@ else
   exit 0
 fi
 
-#git push --quiet --set-upstream origin-openapi gh-pages
-
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
 #  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
 #  exit 1
