@@ -41,8 +41,7 @@ fi
 
 # Put spec file back into folder and check for changes
 cp ../openapi-spec.json .
-git add openapi-spec.json
-if [ -n "$(git diff openapi-spec.json)" ]; then
+if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.json)" ]; then
 
   # Generate redoc static html
   cd ..
