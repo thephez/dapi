@@ -36,13 +36,11 @@ if [ -n "$(git rev-parse --quiet --verify openapi-spec)" ]; then
 else
   git checkout --orphan openapi-spec
   git rm -rf .
-  #git branch --set-upstream-to=origin/openapi-spec openapi-spec
 fi
 
 # Put spec file back into folder and check for changes
 cp ../openapi-spec.json .
 if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.json)" ]; then
-
   # Generate redoc static html
   cd ..
   npx redoc-cli bundle openapi-spec.json
@@ -64,7 +62,6 @@ else
 fi
 
 #git push --quiet --set-upstream origin-openapi gh-pages
-#git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
 #  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
