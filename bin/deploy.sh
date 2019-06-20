@@ -27,14 +27,10 @@ PACKAGE_TAG=v"$VERSION"
 # Check out spec branch and remove all files
 git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
 git fetch --unshallow
-git checkout -B openapi-spec
+git checkout -f openapi-spec
 git branch --set-upstream-to=origin/openapi-spec openapi-spec
-
 rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
-
-git stash
-git pull -X theirs
 
 # Put spec file back into folder
 cp ../openapi-spec.json .
@@ -49,15 +45,13 @@ cd dapi
 ## Add spec file and static page
 git add -A
 git commit -m "Travis-built spec for version ${VERSION}"
-#git log --oneline -n 5
 
 git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
 git pull --rebase
 git push -u origin-openapi openapi-spec
-#git push --quiet --set-upstream origin-openapi gh-pages
 
+#git push --quiet --set-upstream origin-openapi gh-pages
 #git push https://${GH_TOKEN}@github.com/thephez/dapi.git
-ls -alh
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
 #  echo "Travis tag (\"$TRAVIS_TAG\") is not equal to package.json tag (\"$PACKAGE_TAG\"). Please push a correct tag and try again."
