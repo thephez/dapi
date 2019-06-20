@@ -50,7 +50,7 @@ if [ -n "$(git diff openapi-spec.json)" ] || [ -z "$(git ls-files openapi-spec.j
 
   ## Add spec file and static page
   git add -A
-  git commit -m "Travis-built spec for version ${VERSION}"
+  git commit -m "Travis-built spec for version \"${VERSION}\"\nTravis tag: \"$TRAVIS_TAG\""
 
   git remote add origin-openapi https://${GH_TOKEN}@github.com/thephez/dapi.git > /dev/null 2>&1
   #git pull --rebase
