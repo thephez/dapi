@@ -31,7 +31,7 @@ rm -rf ../dapi/* .nyc_output
 rm -f .dockerignore .env.example .eslintignore .eslintrc .gitignore .travis.yml
 
 # Create or checkout branch
-if [ -n "$(git rev-parse --quiet --verify openapi-spec)" ]; then
+if [ -n "$(git rev-parse --quiet --verify origin/openapi-spec)" ]; then
   git checkout -f openapi-spec
 else
   git checkout --orphan openapi-spec
