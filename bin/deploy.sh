@@ -46,14 +46,14 @@ mv redoc-static.html dapi/index.html
 cd dapi
 
 ## Add spec file and static page
-#git add -A
+git add -A
 #git status
-#git commit -m "Travis-built spec for version ${VERSION}"
+git commit -m "Travis-built spec for version ${VERSION}"
 #git log --oneline -n 5
 #
-#git remote -v
+git remote -v
 #
-#git push https://${GH_TOKEN}@github.com/thephez/dapi.git
+git push https://${GH_TOKEN}@github.com/thephez/dapi.git
 ls -alh
 
 #if [[ "$PACKAGE_TAG" != "$TRAVIS_TAG" ]]; then
