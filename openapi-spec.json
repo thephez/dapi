@@ -1,0 +1,2076 @@
+{
+  "openapi": "3.0.0",
+  "x-api-id": "dapi",
+  "info": {
+    "title": "DAPI",
+    "version": "0.6.1",
+    "description": "Dash Decentralized API (DAPI)"
+  },
+  "servers": [
+    {
+      "url": "{url}:{port}",
+      "description": "User-defined network",
+      "variables": {
+        "url": {
+          "default": "http://dapi.dash.org"
+        },
+        "port": {
+          "default": "3000"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/estimateFee": {
+      "post": {
+        "operationId": "estimateFee",
+        "deprecated": false,
+        "summary": "estimateFee",
+        "description": "Estimates the transaction fee necessary for confirmation to occur within a certain number of blocks",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (number) containing fee in duffs per kilobyte."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "estimateFee",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "blocks"
+                    ],
+                    "properties": {
+                      "blocks": {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Number of blocks for fee estimate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fetchContract": {
+      "post": {
+        "operationId": "fetchContract",
+        "deprecated": false,
+        "summary": "fetchContract",
+        "description": "Fetch a user's DAP space",
+        "tags": [
+          "L2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) with the user's dap space."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "fetchContract",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "contractId"
+                    ],
+                    "properties": {
+                      "contractId": {
+                        "type": "string",
+                        "default": "",
+                        "description": "A user's DAP ID"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fetchDocuments": {
+      "post": {
+        "operationId": "fetchDocuments",
+        "deprecated": false,
+        "summary": "fetchDocuments",
+        "description": "Fetches user objects for a given condition",
+        "tags": [
+          "L2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) with user objects."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "fetchDocuments",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "contractId",
+                      "type"
+                    ],
+                    "properties": {
+                      "contractId": {
+                        "type": "string",
+                        "default": "",
+                        "description": "A user's contract ID"
+                      },
+                      "type": {
+                        "type": "string",
+                        "default": "",
+                        "description": "DAP object type to fetch"
+                      },
+                      "options": {
+                        "title": "Options",
+                        "type": "object",
+                        "properties": {
+                          "where": {
+                            "type": "string",
+                            "default": "",
+                            "description": "Mongo-like query"
+                          },
+                          "orderBy": {
+                            "type": "string",
+                            "default": "",
+                            "description": "Mongo-like sort field"
+                          },
+                          "limit": {
+                            "type": "integer",
+                            "default": 100,
+                            "description": "How many objects to fetch"
+                          },
+                          "startAt": {
+                            "type": "integer",
+                            "default": 0,
+                            "description": "Number of objects to skip"
+                          },
+                          "startAfter": {
+                            "type": "integer",
+                            "default": 0,
+                            "description": "Exlusive skip"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate": {
+      "post": {
+        "operationId": "generate",
+        "deprecated": false,
+        "summary": "generate",
+        "description": "Generates blocks on demand",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string array) containing strings of block hashes."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "generate",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "amount"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Number of blocks to generate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAddressSummary": {
+      "post": {
+        "operationId": "getAddressSummary",
+        "deprecated": false,
+        "summary": "getAddressSummary",
+        "description": "Get an address summary given an address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing summary details for the requested address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getAddressSummary",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "description": "Dash address"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "description": "Array of Dash addresses"
+                            }
+                          }
+                        ]
+                      },
+                      "noTxList": {
+                        "type": "boolean",
+                        "description": "if true then no tx list is returned"
+                      },
+                      "from": {
+                        "type": "integer",
+                        "description": "Start of range in the ordered list of latest UTXO"
+                      },
+                      "to": {
+                        "type": "integer",
+                        "description": "End of range in the ordered list of latest UTXO"
+                      },
+                      "fromHeight": {
+                        "type": "integer",
+                        "description": "Lowest block height to include"
+                      },
+                      "toHeight": {
+                        "type": "integer",
+                        "description": "Block height to end on"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAddressTotalReceived": {
+      "post": {
+        "operationId": "getAddressTotalReceived",
+        "deprecated": false,
+        "summary": "getAddressTotalReceived",
+        "description": "Get the total amount of duffs received by an address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (number) indicating the number of duffs received by the address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getAddressTotalReceived",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "default": "yLp6ZJueuigiF4s9E1Pv8tEunDPEsjyQfd",
+                        "description": "Dash address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAddressTotalSent": {
+      "post": {
+        "operationId": "getAddressTotalSent",
+        "deprecated": false,
+        "summary": "getAddressTotalSent",
+        "description": "Get the total amount of duffs sent by an address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (number) indicating the number of duffs sent by the address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getAddressTotalSent",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "default": "yLp6ZJueuigiF4s9E1Pv8tEunDPEsjyQfd",
+                        "description": "Dash address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getAddressUnconfirmedBalance": {
+      "post": {
+        "operationId": "getAddressUnconfirmedBalance",
+        "deprecated": false,
+        "summary": "getAddressUnconfirmedBalance",
+        "description": "Get the total unconfirmed balance for the address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (number) indicating the number of unconfirmed duffs for the address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getAddressUnconfirmedBalance",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "default": "yLp6ZJueuigiF4s9E1Pv8tEunDPEsjyQfd",
+                        "description": "Dash address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBalance": {
+      "post": {
+        "operationId": "getBalance",
+        "deprecated": false,
+        "summary": "getBalance",
+        "description": "Get the calculated balance for the address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (number) indicating the balance of the address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBalance",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "type": "string",
+                        "default": "yLp6ZJueuigiF4s9E1Pv8tEunDPEsjyQfd",
+                        "description": "Dash address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBestBlockHash": {
+      "post": {
+        "operationId": "getBestBlockHash",
+        "deprecated": false,
+        "summary": "getBestBlockHash",
+        "description": "Returns block hash of the chaintip",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string) containing the latest block hash."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBestBlockHash",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBestBlockHeight": {
+      "post": {
+        "operationId": "getbestblockheight",
+        "deprecated": false,
+        "summary": "getBestBlockHeight",
+        "description": "Returns the best block height",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise indicating the best seen block height."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBestBlockHeight",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBlockHash": {
+      "post": {
+        "operationId": "getBlockHash",
+        "deprecated": false,
+        "summary": "getBlockHash",
+        "description": "Returns the block hash for the given height",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string) containing the requested block hash."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBlockHash",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "height"
+                    ],
+                    "properties": {
+                      "height": {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Block height",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBlockHeader": {
+      "post": {
+        "operationId": "getBlockHeader",
+        "deprecated": false,
+        "summary": "getBlockHeader",
+        "description": "Returns the block header corresponding to the requested block hash",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns the block header corresponding to the requested block hash."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBlockHeader",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "blockHash"
+                    ],
+                    "properties": {
+                      "blockHash": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "Block hash"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBlockHeaders": {
+      "post": {
+        "operationId": "getBlockHeaders",
+        "deprecated": false,
+        "summary": "getBlockHeaders",
+        "description": "Returns the requested number of block headers starting at the requested height",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object array) containing an array of block headers."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBlockHeaders",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "offset",
+                      "limit"
+                    ],
+                    "properties": {
+                      "offset": {
+                        "oneOf": [
+                          {
+                            "type": "integer",
+                            "description": "Lowest block height to include"
+                          },
+                          {
+                            "type": "string",
+                            "description": "Lowest block hash to include"
+                          }
+                        ]
+                      },
+                      "limit": {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "The number of headers to return (0 < limit <=2000)",
+                        "minimum": 1,
+                        "maximum": 2000
+                      },
+                      "verbose": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "set true to get headers as deserialized json"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getBlocks": {
+      "post": {
+        "operationId": "getBlocks",
+        "deprecated": false,
+        "summary": "getBlocks",
+        "description": "Returns info for blocks meeting the provided criteria",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object array) containing an array of blocks."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getBlocks",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "blockDate",
+                      "limit"
+                    ],
+                    "properties": {
+                      "blockDate": {
+                        "type": "string",
+                        "default": "2018-06-01T00:00:00.000Z",
+                        "description": "Starting date for blocks to get"
+                      },
+                      "limit": {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Number of blocks to return",
+                        "minimum": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getHistoricBlockchainDataSyncStatus": {
+      "post": {
+        "operationId": "getHistoricBlockchainDataSyncStatus",
+        "deprecated": false,
+        "summary": "getHistoricBlockchainDataSyncStatus",
+        "description": "Returns historic blockchain data sync status",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing historical sync status."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getHistoricBlockchainDataSyncStatus",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getMNList": {
+      "post": {
+        "operationId": "getMNList",
+        "deprecated": false,
+        "summary": "getMNList",
+        "description": "Returns masternode list",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object array) containing masternode list."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getMNList",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getMempoolInfo": {
+      "post": {
+        "operationId": "getMempoolInfo",
+        "deprecated": false,
+        "summary": "getMempoolInfo",
+        "description": "Returns mempool info object",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (Object) containing info about mempool usage."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getMempoolInfo",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getMnListDiff": {
+      "post": {
+        "operationId": "getMnListDiff",
+        "deprecated": false,
+        "summary": "getMnListDiff",
+        "description": "Returns masternode list diff for the provided block hashes",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object array) containing a diff of the masternode list based on the provided block hashes."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getMnListDiff",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "baseBlockHash",
+                      "blockHash"
+                    ],
+                    "properties": {
+                      "baseBlockHash": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "Block hash"
+                      },
+                      "blockHash": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "Block hash"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getPeerDataSyncStatus": {
+      "post": {
+        "operationId": "getPeerDataSyncStatus",
+        "deprecated": false,
+        "summary": "getPeerDataSyncStatus",
+        "description": "Returns peer data sync status",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing peer data sync status."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getPeerDataSyncStatus",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getQuorum": {
+      "post": {
+        "operationId": "getQuorum",
+        "deprecated": false,
+        "summary": "getQuorum",
+        "description": "Returns a user quorum (LLMQ)",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing a user quorum."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getQuorum",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "regTxId"
+                    ],
+                    "properties": {
+                      "regTxId": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "The TXID of the user's registration subscription transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getRawBlock": {
+      "post": {
+        "operationId": "getRawBlock",
+        "deprecated": false,
+        "summary": "getRawBlock",
+        "description": "Returns the raw block for the provided block hash",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing the raw block details."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getRawBlock",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "blockHash"
+                    ],
+                    "properties": {
+                      "blockHash": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "Hash of the block to request"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getStatus": {
+      "post": {
+        "operationId": "getStatus",
+        "deprecated": false,
+        "summary": "getStatus",
+        "description": "Returns status based on query parameter",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Status details for the provided query."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getStatus",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "query"
+                    ],
+                    "properties": {
+                      "query": {
+                        "type": "string",
+                        "default": "getInfo",
+                        "description": "Type of status to get (getInfo, getDifficulty, getBestBlockHash, or getLastBlockHash)"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getTransactionById": {
+      "post": {
+        "operationId": "getTransactionById",
+        "deprecated": false,
+        "summary": "getTransactionById",
+        "description": "Returns transaction for the given hash",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing transaction info."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getTransactionById",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "txid"
+                    ],
+                    "properties": {
+                      "txid": {
+                        "type": "string",
+                        "default": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "description": "The TXID of the transaction being requested"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getTransactionsByAddress": {
+      "post": {
+        "operationId": "getTransactionsByAddress",
+        "deprecated": false,
+        "summary": "getTransactionsByAddress",
+        "description": "Returns all transaction related to the given address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing all transaction objects for the requested address."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getTransactionsByAddress",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "description": "Dash address"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "description": "Array of Dash addresses"
+                            }
+                          }
+                        ]
+                      },
+                      "from": {
+                        "type": "integer",
+                        "description": "Start of range in the ordered list of latest UTXO"
+                      },
+                      "to": {
+                        "type": "integer",
+                        "description": "End of range in the ordered list of latest UTXO"
+                      },
+                      "fromHeight": {
+                        "type": "integer",
+                        "description": "Lowest block height to include"
+                      },
+                      "toHeight": {
+                        "type": "integer",
+                        "description": "Block height to end on"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getUTXO": {
+      "post": {
+        "operationId": "getUTXO",
+        "deprecated": false,
+        "summary": "getUTXO",
+        "description": "Returns unspent outputs for the given address",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing unspent transaction objects."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getUTXO",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "address"
+                    ],
+                    "properties": {
+                      "address": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "description": "Dash address"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "description": "Array of Dash addresses"
+                            }
+                          }
+                        ]
+                      },
+                      "from": {
+                        "type": "integer",
+                        "description": "Start of range in the ordered list of latest UTXO"
+                      },
+                      "to": {
+                        "type": "integer",
+                        "description": "End of range in the ordered list of latest UTXO"
+                      },
+                      "fromHeight": {
+                        "type": "integer",
+                        "description": "Lowest block height to include"
+                      },
+                      "toHeight": {
+                        "type": "integer",
+                        "description": "Block height to end on"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getUser": {
+      "post": {
+        "operationId": "getUser",
+        "deprecated": false,
+        "summary": "getUser",
+        "description": "Returns a blockchain user",
+        "tags": [
+          "L2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object) containing user info."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "getUser",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "username"
+                    ],
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "default": "DashUser001",
+                        "description": "Either a username or a user's registration tx id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searchUsers": {
+      "post": {
+        "operationId": "searchUsers",
+        "deprecated": false,
+        "summary": "searchUsers",
+        "description": "Adds an element to an existing bloom filter",
+        "tags": [
+          "L2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (object with array of strings) containing the number of results returned and an array of matching users."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "searchUsers",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "pattern",
+                      "limit",
+                      "offset"
+                    ],
+                    "properties": {
+                      "pattern": {
+                        "type": "string",
+                        "default": "DashUser001",
+                        "description": "Search pattern"
+                      },
+                      "limit": {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Maximum number of results to return",
+                        "minimum": 1,
+                        "maximum": 25
+                      },
+                      "offset": {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Starting location in result set",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendRawIxTransaction": {
+      "post": {
+        "operationId": "sendRawIxTransaction",
+        "deprecated": false,
+        "summary": "sendRawIxTransaction",
+        "description": "Sends raw InstantSend transaction and returns the transaction ID",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string array) containing the transaction ID."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "sendRawIxTransaction",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "rawTransaction"
+                    ],
+                    "properties": {
+                      "rawTransaction": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Raw InstantSend transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendRawTransaction": {
+      "post": {
+        "operationId": "sendRawTransaction",
+        "deprecated": false,
+        "summary": "sendRawTransaction",
+        "description": "Sends raw transaction and returns the transaction ID",
+        "tags": [
+          "L1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string array) containing the transaction ID."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "sendRawTransaction",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "rawTransaction"
+                    ],
+                    "properties": {
+                      "rawTransaction": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Raw transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sendRawTransition": {
+      "post": {
+        "operationId": "sendRawTransition",
+        "deprecated": false,
+        "summary": "sendRawTransition",
+        "description": "Sends raw state transition to the network",
+        "tags": [
+          "L2"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Promise (string) containing confirmed state transition transaction."
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "method",
+                  "id",
+                  "jsonrpc",
+                  "params"
+                ],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "sendRawTransition",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [
+                      "rawStateTransition",
+                      "rawSTPacket"
+                    ],
+                    "properties": {
+                      "rawStateTransition": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Raw transition"
+                      },
+                      "rawSTPacket": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Raw ST Packet"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-send-defaults": true,
+  "x-headers": [],
+  "x-explorer-enabled": true,
+  "x-proxy-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "ruby",
+    "javascript",
+    "python"
+  ],
+  "components": {},
+  "tags": []
+}
